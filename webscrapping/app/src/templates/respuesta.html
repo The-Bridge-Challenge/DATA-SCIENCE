@@ -1,35 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Respuestas</title>
+    <!-- ... -->
 </head>
 <body>
-    <h2>Respuestas Page</h2>
-    <table border="1">
-        <tr>
-            <th>Tarifa</th>
-            <th>Consumo Anual</th>
-            <th>Consumo Anual P1</th>
-            <th>Consumo Anual P2</th>
-            <th>Consumo Anual P3</th>
-            <th>Consumo Anual P4</th>
-            <th>Consumo Anual P5</th>
-            <th>Consumo Anual P6</th>
-            <th>CUPS</th>
-            <th>Municipio</th>
-            <th>Provincia</th>
-            <th>Código Postal</th>
-            <th>CIA Actual</th>
-        </tr>
-        {% for row in cliente %}
+    <h2>{{ mensaje }}</h2>
+    {% if datos %}
+        <table>
+            <!-- Encabezados de la tabla -->
             <tr>
-                {% for item in row %}
-                    <td>{{ item }}</td>
+                {% for key in datos[0].keys() %}
+                    <th>{{ key }}</th>
                 {% endfor %}
             </tr>
-        {% endfor %}
-    </table>
+            <!-- Filas de la tabla -->
+            {% for row in datos %}
+                <tr>
+                    {% for value in row.values() %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No hay datos para mostrar.</p>
+    {% endif %}
 </body>
 </html>
