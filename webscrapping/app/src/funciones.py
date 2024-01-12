@@ -177,7 +177,7 @@ def webscrape(CUPS):
 
 def insertar_datos(df):
     try:
-        connect = "postgresql://postgres:D3s4fioSever4!@34.38.45.173:5432/postgres"
+        connect = servidor
         engine = create_engine(connect)
         df.to_sql(name="sips", con=engine, if_exists="append", index=False)
         return "Datos Ingestados"
