@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respuestas</title>
+</head>
+<body>
+    <h2>Respuestas Page</h2>
+    <table border="1">
+        <tr>
+            <th>Tarifa</th>
+            <th>Consumo Anual</th>
+            <th>Consumo Anual P1</th>
+            <th>Consumo Anual P2</th>
+            <th>Consumo Anual P3</th>
+            <th>Consumo Anual P4</th>
+            <th>Consumo Anual P5</th>
+            <th>Consumo Anual P6</th>
+            <th>CUPS</th>
+            <th>Municipio</th>
+            <th>Provincia</th>
+            <th>Código Postal</th>
+            <th>CIA Actual</th>
+        </tr>
+        {% for row in cliente %}
+            <tr>
+                {% for item in row %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
