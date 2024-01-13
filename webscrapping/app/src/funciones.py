@@ -1,15 +1,23 @@
 import pandas as pd
-from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 import time
 from bs4 import BeautifulSoup as bs
 from sqlalchemy import create_engine
-from credenciales import *
-from selenium.common.exceptions import NoSuchElementException
+from dotenv import load_dotenv
+import os
 from sqlalchemy.exc import SQLAlchemyError
+
+
+
+
+load_dotenv()
+password_candela = os.getenv('PASSWORD_CANDELA')
+usuario_candela = os.getenv('USUARIO_CANDELA')
+servidor = os.getenv('SERVIDOR')
 
 def webscrape(CUPS):
     
@@ -18,15 +26,16 @@ def webscrape(CUPS):
     chrome_options.add_argument("--headless")
 
     # Inicializar el driver con las opciones configuradas
-    servicio = Service('DATA-SCIENCE/webscrapping/app/src/chromedriver.exe')
-    driver = webdriver.Chrome(service=servicio, options=chrome_options)
+    driver = webdriver.Remote(
+        command_executor='http://selenium-chrome:4444/wd/hub',
+        options=chrome_options)
 
     # Acceder al sitio de Candela
     driver.get('https://agentes.candelaenergia.es/#/login')
     assert "Candela"
-    time.sleep(3)
+    time.sleep(5)
 
-    
+
     # Seleccionar opciones en la página de inicio   
     loadMore = driver.find_element(By.XPATH, '//*[@id="select_1"]')
     loadMore.click()
@@ -35,44 +44,39 @@ def webscrape(CUPS):
     loadMore = driver.find_element(By.XPATH, '//*[@id="select_option_3"]/div[1]')
     loadMore.click()
     
+    # Ingresar usuario
+    user_box = driver.find_element(By.XPATH, '//*[@id="contenedor"]/div/div/div/div[1]/div/form/div[1]/div[2]/input')
+    user_box.send_keys(usuario_candela)
+    time.sleep(1)
+    
+    # Ingresar contraseña
+    pass_box = driver.find_element(By.XPATH, '//*[@id="contenedor"]/div/div/div/div[1]/div/form/div[1]/div[3]/input')
+    pass_box.send_keys(password_candela)
+    time.sleep(1)
+    
+    # Hacer click en el botón de login
+    loadMore = driver.find_element(By.XPATH, '//*[@id="contenedor"]/div/div/div/div[1]/div/form/button')
+    loadMore.click()
+    time.sleep(8)  # o 10
 
-    try:
-        # Ingresar usuario
-        user_box = driver.find_element(By.XPATH, '//*[@id="contenedor"]/div/div/div/div[1]/div/form/div[1]/div[2]/input')
-        user_box.send_keys(usuario_candela)
-        time.sleep(1)
-        
-        # Ingresar contraseña
-        pass_box = driver.find_element(By.XPATH, '//*[@id="contenedor"]/div/div/div/div[1]/div/form/div[1]/div[3]/input')
-        pass_box.send_keys(password_candela)
-        time.sleep(1)
-        
-        # Hacer click en el botón de login
-        loadMore = driver.find_element(By.XPATH, '//*[@id="contenedor"]/div/div/div/div[1]/div/form/button')
-        loadMore.click()
-        time.sleep(8)  # o 10
-
-    except NoSuchElementException:
-        print("Usuario y/o contraseña incorrecto.")
 
     # Acceder a la sección de SIPS
-    sips = driver.find_element(By.XPATH, '//*[@id="sidebar-wrapper"]/ul/li[3]/a/span[2]')
+    sips = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div[1]/ul/li[3]/a/span[2]')
     sips.click() 
     time.sleep(1)
 
-    try:
-        # Ingresar el CUPS proporcionado por el usuario
-        cups_box = driver.find_element(By.XPATH, '//*[@id="input_6"]')
-        cups_box.send_keys(CUPS)
-        time.sleep(1)
 
-        # Consultar la información
-        consult = driver.find_element(By.XPATH, '//*[@id="tab-content-5"]/div/md-card/div/form/div[4]/button/span')
-        consult.click()
-        time.sleep(10) #34
+    # Ingresar el CUPS proporcionado por el usuario
+    cups_box = driver.find_element(By.XPATH, '//*[@id="input_6"]')
+    cups_box.send_keys(CUPS)
+    time.sleep(1)
 
-    except NoSuchElementException:    
-        print("CUPS incorrecto.")
+    # Consultar la información
+    consult = driver.find_element(By.XPATH, '//*[@id="tab-content-5"]/div/md-card/div/form/div[4]/button/span')
+    consult.click()
+    time.sleep(10) #34
+
+ 
 
     # Obtener el HTML de la página
     html = driver.page_source

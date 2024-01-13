@@ -1,0 +1,14 @@
+version: '3'
+services:
+  app:
+    build: .
+    environment:
+      - PASSWORD_CANDELA
+      - USUARIO_CANDELA
+      - SERVIDOR_DB
+    ports:
+      - "5000:5000"
+  selenium-chrome:
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"
