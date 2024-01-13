@@ -8,12 +8,11 @@ import time
 from bs4 import BeautifulSoup as bs
 from sqlalchemy import create_engine
 from credenciales import *
-# importar para el try/except del usuario, password y para CUPS:
 from selenium.common.exceptions import NoSuchElementException
-# importar para try/except de la ingesta de datos:
 from sqlalchemy.exc import SQLAlchemyError
 
 def webscrape(CUPS):
+    
     # Configuración de opciones para el navegador Chrome
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -27,28 +26,15 @@ def webscrape(CUPS):
     assert "Candela"
     time.sleep(3)
 
-    # Seleccionar opciones en la página de inicio
-   
+    
+    # Seleccionar opciones en la página de inicio   
     loadMore = driver.find_element(By.XPATH, '//*[@id="select_1"]')
     loadMore.click()
     time.sleep(1)
 
     loadMore = driver.find_element(By.XPATH, '//*[@id="select_option_3"]/div[1]')
     loadMore.click()
-    # time.sleep(5)
-
-    # # Ingresar usuario
-    # user_box = driver.find_element(By.XPATH, '//*[@id="contenedor"]/div/div/div/div[1]/div/form/div[1]/div[2]/input')
-    # user_box.send_keys("CA001507")
-    # time.sleep(1)
-    # # Ingresar pass
-    # pass_box = driver.find_element(By.XPATH, '//*[@id="contenedor"]/div/div/div/div[1]/div/form/div[1]/div[3]/input')
-    # pass_box.send_keys("CI001-507/258071")
-    # time.sleep(1)
-    # #hacer click y login
-    # loadMore = driver.find_element(By.XPATH, '//*[@id="contenedor"]/div/div/div/div[1]/div/form/button')
-    # loadMore.click()
-    # time.sleep(8) # o 10
+    
 
     try:
         # Ingresar usuario
@@ -171,8 +157,6 @@ def webscrape(CUPS):
     'distribuidora_actual': dato_distribuidora_actual
 })
     
-    
-    # datos = datos_t,datos_ca,datos_p1,datos_p2,datos_p3,datos_p4,datos_p5,datos_p6, dato_cups, dato_municipio, dato_provincia, dato_codigo_postal, dato_distribuidora_actual
     return df
 
 def insertar_datos(df):

@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from funciones import *
 from variables import *
-import uuid
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
