@@ -2,6 +2,7 @@ version: '3'
 services:
   app:
     build: .
+    image: dardg24/app-candela:latest
     environment:
       - PASSWORD_CANDELA
       - USUARIO_CANDELA
