@@ -23,7 +23,7 @@ Creación de tablas mediante queries SQL:
 
 [Archivo de queries](./BBDD/notebooks/queries_SQL.ipynb)
 
-````python
+
 """
 CREATE TABLE ENERGIA (
     SISTEMA VARCHAR(50),
@@ -169,7 +169,8 @@ CREATE TABLE Propuesta (
 
 
 """
-```
+
+
 
 ***
 
@@ -182,7 +183,7 @@ CREATE TABLE Propuesta (
 El archivo [App](./webscrapping/app/src/app.py) contiene el código que ejecuta el webscrapeo.
 
 
-```python
+
 
 ...
 
@@ -202,11 +203,11 @@ def result():
     return jsonify({'mensaje': mensaje, 'cups': cups})
 
 ...
-```
+
 
 Este código define una ruta ('/result') en una aplicación web Flask que maneja solicitudes POST. Cuando se recibe una solicitud en esta ruta, el código extrae el CUPS del formulario de la solicitud. Luego utiliza este valor para realizar un webscraping con la función webscrape(), obteniendo un DataFrame (df). Posteriormente, verifica si el DataFrame no es nulo e inserta los datos resultantes la tabla 'sips' (función insertar_datos()).
 
-```python
+
 
 ...
 
@@ -221,8 +222,7 @@ def obtener_datos(cups):
     else:
         return jsonify(df.to_dict(orient='records'))
 
-...
-```
+
 Este código obtiene los datos extraídos y los devuelve en formato JSON.
 
 [Funciones](./webscrapping/app/src/funciones.py)
