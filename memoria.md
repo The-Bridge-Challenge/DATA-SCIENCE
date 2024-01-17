@@ -23,6 +23,7 @@ Creación de tablas mediante queries SQL:
 
 [Archivo de queries](./BBDD/notebooks/queries_SQL.ipynb)
 
+```python
 
 """
 CREATE TABLE ENERGIA (
@@ -169,9 +170,8 @@ CREATE TABLE Propuesta (
 
 
 """
-
-
-
+```
+#
 ***
 
 - Diagrma Entidad-Relación:
